@@ -1,0 +1,1 @@
+web: gunicorn hostel_hack_project.wsgi --log-file -
