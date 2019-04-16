@@ -1,26 +1,21 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
-import UserList from "./components/UserList";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import './App.css';
+import LoginPage from './components/LoginPage.js'
+// import AllHostels from './components/AllHostels.js'
 
 class App extends Component {
   render() {
     return (
-      <Router>
-                <div className="App">
-
-                    <div>
-                        <h1>Hostel Hack</h1>
-                        <div>
-                            <div><Link to="/">All Users</Link></div>
-                        </div>
-                    </div>
-
-                    <Switch>
-                      <Route exact path="/" component={UserList}/>
-                    </Switch>
-                </div>
-            </Router>
+       <Router>
+         <Switch>
+           <Route exact path="/" component={LoginPage} />
+           {/* <Route exact path="/user/:userId/hostels" component={AllHostels} />
+           <Route exact path="/user/:userId/hostels/new" component={NewHostel} />
+           <Route exact path="/user/:userId/hostels/:hostelId/events" component={AllEvents} />
+           <Route exact path="/user/:userId/hostels/:hostelId/events/new" component={NewEvent} /> */}
+         </Switch>
+       </Router>
     );
   }
 }
