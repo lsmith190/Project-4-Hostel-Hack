@@ -40,4 +40,4 @@ class UserList extends Component {
     }
 }
 
-export default ArtistList;
+export default UserList;
