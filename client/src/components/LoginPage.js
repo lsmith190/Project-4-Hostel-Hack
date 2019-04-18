@@ -2,55 +2,83 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import { Redirect, Link } from 'react-router-dom'
 
-class LoginPage extends Component {
+class LogInPage extends Component {
     state = {
-        user: {
-            name: ''
-        },
-        redirect: false
-    }
-
-    handleChange = (event) => {
-        const attributeName = event.target.name;
-        const attributeValue = event.target.value;
-        const user = { ...this.state.user };
-        user[attributeName] = attributeValue;
-        this.setState({ user })
+      users: [],
+      user: {
+        name: ""
+      },
+      redirectToHome: false,
+      createdUser: {}
     };
-
-    newUser = () => {
-        axios.post('/api/user', { name: this.state.user.name })
-            .then(res => {
-                this.setState({ redirect: true })
-            })
-    }
-
+  
+    componentDidMount = () => {
+      this.getAllUsers();
+    };
+  
+    getAllUsers = () => {
+      axios.get("/api/v1/users/").then(res => {
+        this.setState({ users: res.data });
+      });
+    };
+  
+    createUser = () => {
+      axios.post("/api/v1/users/", { user: this.state.user }).then(res => {
+        this.setState({ redirectToHome: true, createdUser: res.data });
+      });
+    };
+  
+    handleChange = e => {
+      const newUser = { ...this.state.user };
+      newUser[e.target.name] = e.target.value;
+      this.setState({ user: newUser });
+    };
+  
+    handleSignUp = e => {
+      e.preventDefault();
+      this.createUser();
+    };
+    deleteUser = () => {
+      const userId = this.props.match.params.userId;
+      axios.delete(`/api/v1/user/${userId}/hostels`);
+      this.props.history.goBack();
+    };
+  
     render() {
-        if (this.state.redirect) {
-            return <Redirect to={"/"} />
-        } else {
+      if (this.state.redirectToHome === true) {
+        return <Redirect to={`/user/${this.state.createdUser._id}/hostels`} />;
+      }
+  
+      return (
+          <div>
+          <h1>Hostel Hack</h1>
+  
+          <h2>Your hassle-free hostel experience awaits!</h2>
+          {this.state.users.map(user => {
             return (
-                    <div style={{ textAlign: "center", padding: "50px" }}>
-                        <h1 style={{ textAlign: "center" }}>Hostel Hack</h1>
-                        <h4 style={{ textAlign: "center" }}>Your hassle-free hostel experience awaits!</h4>
-                        <form>
-                            <div>
-                                <label htmlFor="name">What is your name? </label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                            <Link to={`/user/:userId/hostels`}><input type="submit" value="Join" onClick={this.newUser}/></Link>
-                        </form>
-
-
-                    </div>
-
-            )
-        }
+              <div key={user.id}>
+                <Link to={`/user/${user.id}/hostels`} key={user._id}>
+                  {user.name}
+                </Link>
+              </div>
+            );
+          })}
+  
+          <form onSubmit={this.handleSignUp}>
+            <div>
+              <label htmlFor="name">What is your name?</label>
+              <input
+                type="text"
+                name="name"
+                onChange={this.handleChange}
+                value={this.state.user.name}
+              />
+            </div>
+            <button>Join</button>
+          </form>
+          </div>
+      );
     }
-}
-
-export default LoginPage;
+  }
+  
+  export default LogInPage;
