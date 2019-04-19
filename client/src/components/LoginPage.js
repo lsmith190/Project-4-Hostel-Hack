@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Redirect, Link } from 'react-router-dom'
+import { Container, Jumbotron } from 'react-bootstrap';
 
 class LogInPage extends Component {
     state = {
@@ -23,7 +24,7 @@ class LogInPage extends Component {
     };
   
     createUser = () => {
-      axios.post("/api/v1/users/", { user: this.state.user }).then(res => {
+      axios.post("/api/v1/users/", this.state.user ).then(res => {
         this.setState({ redirectToHome: true, createdUser: res.data });
       });
     };
@@ -40,7 +41,7 @@ class LogInPage extends Component {
     };
     deleteUser = () => {
       const userId = this.props.match.params.userId;
-      axios.delete(`/api/v1/user/${userId}/hostels`);
+      axios.delete(`/api/v1/user/${userId}/hostels/`);
       this.props.history.goBack();
     };
   
@@ -50,10 +51,13 @@ class LogInPage extends Component {
       }
   
       return (
-          <div>
-          <h1>Hostel Hack</h1>
-  
-          <h2>Your hassle-free hostel experience awaits!</h2>
+          <div align="center">
+          <Jumbotron fluid className="login" style={{ height: '30rem' }}>
+					<Container className="loginfont">
+						<h1 style={{ fontSize: '50px', fontWeight: 'bold', color: 'white' }}>HOSTEL HACK</h1>
+						<p style={{ fontSize: '20px', color: 'white' }}>Your hassle-free hostel experience awaits!</p>
+					</Container>
+	    </Jumbotron>
           {this.state.users.map(user => {
             return (
               <div key={user.id}>
