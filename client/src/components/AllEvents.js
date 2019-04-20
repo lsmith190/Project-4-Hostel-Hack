@@ -18,20 +18,23 @@ class AllEvents extends Component {
     }
 
     componentDidMount(){
-        this.fetchEvents();
+        const hostelId= this.props.match.params.hostelId
+        this.fetchEvents(hostelId);
     }
 
-    fetchEvents = async () => {
+    fetchEvents = async (hostelId) => {
         try {
             const userId = this.props.match.params.userId;
             const hostelId = this.props.match.params.hostelId;
             const res = await axios.get(`/api/v1/users/${userId}/hostel/${hostelId}`);
-            this.setState({user: res.data});
-            this.setState({userId: this.props.match.params.userId});
-            this.setState({hostels: res.data.hostels});
-            this.setState({hostel: res.data.hostel});
-            this.setState({events: res.data.events});
-            this.setState({event: res.data.event});
+            this.setState({user: res.data,
+                            userId: this.props.match.params.userId,
+                            hostels: res.data.hostels,
+                            hostel: res.data.hostel,
+                            events: res.data.events,
+                            event: res.data.event
+                    }
+                        )
         }
         catch (err) {
             console.log(err)
@@ -46,11 +49,12 @@ class AllEvents extends Component {
         return (
             <div align="center">
                 <h1>Hostel Events</h1>
-                {/* {this.state.events.map(event => (
+                {console.log(this.state.events)}
+                {this.state.events.map(event => (
                     <div key={event.id}>
-                        <h1>{event.name}</h1>
+                        <p>{event.name}</p>
                     </div>
-                ))} */}
+                ))}
             </div>
         );
     }

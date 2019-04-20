@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Button } from 'react-bootstrap'
 
@@ -15,7 +15,8 @@ class AllHostels extends Component {
             events: []
         }, 
         user: {},
-        userId: ""
+        userId: "",
+        redirectToHome: false
     }
 
     componentDidMount(){
@@ -39,19 +40,22 @@ class AllHostels extends Component {
 
     deleteUser = () => {
         const userId = this.props.match.params.userId;
-        axios.delete(`/api/user/${userId}`).then(() => {
-          this.props.history.goBack();
+        axios.delete(`/api/v1/users/${userId}/`).then(() => {
+          this.setState({
+              redirectToHome: true
+          })
         });
       };
 
     render() {
-        if (this.state.error){
-            return <div>{this.state.error}</div>
+        if (this.state.redirectToHome === true) {
+            return <Redirect to={`/`} />;
         }
         return (
             <div align="center">
                 <div><Button variant="danger" size="lg" onClick={this.deleteUser}>+ Delete Account</Button></div>
                 <h1>{this.state.user.name}'s Upcoming Trips</h1>
+                
                 {this.state.hostels.map(hostel => (
                     <div key={hostel.id}>
                         <Link to={`/user/${this.state.userId}/hostels/${hostel.id}/events`} >{hostel.name}</Link>

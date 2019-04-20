@@ -35,20 +35,14 @@ class LogInPage extends Component {
       this.setState({ user: newUser });
     };
   
-    handleSignUp = e => {
+    handleSignUp = (e) => {
       e.preventDefault();
       this.createUser();
-    };
-    
-    deleteUser = () => {
-      const userId = this.props.match.params.userId;
-      axios.delete(`/api/v1/user/${userId}/hostels/`);
-      this.props.history.goBack();
     };
   
     render() {
       if (this.state.redirectToHome === true) {
-        return <Redirect to={`/user/${this.state.createdUser._id}/hostels`} />;
+        return <Redirect to={`/user/${this.state.createdUser.id}/hostels`} />;
       }
   
       return (
@@ -62,7 +56,7 @@ class LogInPage extends Component {
           {this.state.users.map(user => {
             return (
               <div key={user.id}>
-                <Link to={`/user/${user.id}/hostels`} key={user._id}>
+                <Link to={`/user/${user.id}/hostels`} key={user.id}>
                   {user.name}
                 </Link>
               </div>
