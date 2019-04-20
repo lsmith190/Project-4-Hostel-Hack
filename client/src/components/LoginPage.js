@@ -39,6 +39,7 @@ class LogInPage extends Component {
       e.preventDefault();
       this.createUser();
     };
+    
     deleteUser = () => {
       const userId = this.props.match.params.userId;
       axios.delete(`/api/v1/user/${userId}/hostels/`);

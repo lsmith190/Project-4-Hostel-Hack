@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import './App.css';
-import { Navbar } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import LoginPage from './components/LoginPage.js'
 import AllHostels from './components/AllHostels.js'
 // import NewHostel from './components/NewHostel.js'
@@ -15,11 +15,11 @@ class App extends Component {
          <div>
 
             <Navbar bg="dark" variant="dark">
-              <Navbar.Brand href="/">Home</Navbar.Brand>
-              {/* <Navbar.Toggle />
-              <Navbar.Collapse className="justify-content-end">
-              </Navbar.Collapse> */}
-            </Navbar>
+                <Nav className="mr-auto">
+                  <Nav.Link href="/">Home</Nav.Link>
+                </Nav>
+              </Navbar>
+            
 
          <Switch>
            <Route exact path="/" component={LoginPage} />
