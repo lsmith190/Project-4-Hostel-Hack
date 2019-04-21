@@ -14,14 +14,33 @@ class AllHostels extends Component {
             departure_date: "",
             events: []
         }, 
+        oneNewHostel: {
+            name: "",
+            location: "",
+            arrival_date: "",
+            departure_date: "",
+            events: []
+        },
         user: {},
         userId: "",
         redirectToHome: false
     }
 
+    deleteUser = () => {
+        const userId = this.props.match.params.userId;
+        axios.delete(`/api/v1/users/${userId}/`).then(() => {
+          this.setState({
+              redirectToHome: true,
+              isEditFormDisplayed: false
+            
+          })
+        });
+      };
+
     componentDidMount(){
         this.fetchHostels();
     }
+
 
     fetchHostels = async () => {
         try {
@@ -38,14 +57,65 @@ class AllHostels extends Component {
         }
     }
 
-    deleteUser = () => {
-        const userId = this.props.match.params.userId;
-        axios.delete(`/api/v1/users/${userId}/`).then(() => {
-          this.setState({
-              redirectToHome: true
-          })
+      createHostel = () => {
+        const newHost = this.state.oneNewHostel;  
+        axios.post("/api/v1/hostels/", newHost ).then(res => {
+          const newHostels = [...this.state.hostels];
+          newHostels.user = this.state.user.userId;
+          newHostels.unshift(res.data);  
+          this.setState({ redirectToHome: true, createdHostel: res.data });
         });
       };
+
+      handleNewHostelChange = (e) => {
+          let newHost = {...this.state.oneNewHostel}
+          newHost[e.target.name] = e.target.value
+          console.log(newHost)
+          this.setState({ oneNewHostel: newHost })
+      }
+
+
+    deleteHostel = async () => {
+        try {
+            const hostelId = this.props.match.params.hostelId;
+            const res = await axios.delete(`/api/v1/hostels/${hostelId}`)
+            this.setState({
+                redirectToHome: true
+            })
+        }
+        catch(err) {
+            console.log(err)
+        }
+    }
+
+    updateHostel = async (hostel, e) => {
+        e.preventDefault()
+        try {
+            const res = await axios.put(`/api/v1/hostels/${hostel.id}`, this.state.hostel)
+            this.setState({
+                hostel: res.data,
+                isEditFormDisplayed: false
+            })
+        }
+        catch(err) {
+            console.log(err)
+        }
+    }
+
+    // handleChange = (e) => {
+    //     const clonedHostel = {...this.state.hostel}
+    //     clonedHostel[e.target.name] = e.target.value
+
+    //     this.setState({
+    //         hostel: clonedHostel
+    //     })
+    // }
+
+    toggleEditForm = () => {
+        this.setState((state, props) => {
+            return {isEditFormDisplayed: !state.isEditFormDisplayed}
+        })
+    }
 
     render() {
         if (this.state.redirectToHome === true) {
@@ -54,6 +124,53 @@ class AllHostels extends Component {
         return (
             <div align="center">
                 <div><Button variant="danger" size="lg" onClick={this.deleteUser}>+ Delete Account</Button></div>
+                <div><button onClick={this.toggleEditForm}>
+                    {this.state.isEditFormDisplayed === true ? 'Nah, nvm' : 'Add Hostel'}
+                </button></div>
+                {
+                    this.state.isEditFormDisplayed
+                        ?  <form onSubmit={this.createHostel}>
+                        <div>
+                          <label htmlFor="name">Hostel name:</label>
+                          <input
+                            type="text"
+                            name="name"
+                            onChange={this.handleNewHostelChange}
+                            value={this.state.hostels.name}
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="location">Location:</label>
+                          <input
+                            type="text"
+                            name="location"
+                            onChange={this.handleNewHostelChange}
+                            value={this.state.hostels.name}
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="arrival_date">Trip Start Date:</label>
+                          <input
+                            type="text"
+                            name="arrival_date"
+                            onChange={this.handleNewHostelChange}
+                            value={this.state.hostels.name}
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="departure_date">Trip End Date:</label>
+                          <input
+                            type="text"
+                            name="departure_date"
+                            onChange={this.handleNewHostelChange}
+                            value={this.state.hostels.name}
+                          />
+                        </div>
+                        <button>Add</button>
+                      </form>
+                        : null
+                }
+
                 <h1>{this.state.user.name}'s Upcoming Trips</h1>
                 
                 {this.state.hostels.map(hostel => (
