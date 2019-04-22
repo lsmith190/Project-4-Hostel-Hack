@@ -12,6 +12,7 @@ class AllEvents extends Component {
             date: "",
             time: "",
             description: "",
+            eventId: ""
         },
         oneNewEvent: {
             name: "",
@@ -37,10 +38,11 @@ class AllEvents extends Component {
     };
 
     componentDidMount(){
-        this.fetchEvents();
+      const hostelId = this.props.match.params.hostelId;
+        this.fetchEvents(hostelId);
     }
 
-    fetchEvents = async () => {
+    fetchEvents = async (hostelId) => {
         try {
             const hostelId = this.props.match.params.hostelId;
             const res = await axios.get(`/api/v1/hostels/${hostelId}/`);
@@ -82,6 +84,28 @@ class AllEvents extends Component {
       e.preventDefault();
       this.createEvent();
     };
+
+    deleteEvent = (event) => {
+      const eventId = event.id;
+      axios.delete(`/api/v1/events/${eventId}/`).then(() => {
+        const hostelId = this.props.match.params.hostelId
+        this.fetchEvents(hostelId)
+      });
+    };
+
+    // deleteEvent = (event) => {
+    //   // const id = this.props.userId
+    //   const eventId = this.props.event.id
+    //   axios.delete(`/api/v1/events/${eventId}/`)
+    //   .then(res => {
+        
+    //       const copiedEvent = [...this.state.event]
+    //       const filteredEvents = copiedEvent.filter(event => event.id !== res.data.id)
+    //       this.setState({ event: filteredEvents})
+    //   }).then(() => {
+    //       this.fetchEvents()
+    //   })
+    // }
 
     render() {
       if (this.state.redirectToHome === true) {
@@ -136,6 +160,7 @@ class AllEvents extends Component {
                       </form>
                         : null
                 }
+                
                 <h1>Hostel Events</h1>
                 {this.state.events.map(event => (
                     <div key={event.id}>
@@ -143,8 +168,9 @@ class AllEvents extends Component {
                         <p>Date: {event.date}</p>
                         <p>Time: {event.time}</p>
                         <p>{event.description}</p>
-                        <div><Button variant="danger" size="lg" onClick={this.deleteEvent}>+ Delete Event</Button></div>
                     </div>
+                    
+                    
                 ))}
             </div>
         );

@@ -4,9 +4,8 @@ import './App.css';
 import { Navbar, Nav } from 'react-bootstrap';
 import LoginPage from './components/LoginPage.js'
 import AllHostels from './components/AllHostels.js'
-// import NewHostel from './components/NewHostel.js'
 import AllEvents from './components/AllEvents.js'
-// import NewEvent from './components/NewEvent.js'
+import SingleEvent from "./components/SingleEvent"
 
 class App extends Component {
   render() {
@@ -24,9 +23,8 @@ class App extends Component {
          <Switch>
            <Route exact path="/" component={LoginPage} />
            <Route exact path="/user/:userId/hostels" component={AllHostels} />
-           {/* <Route exact path="/user/:userId/hostels/new" component={NewHostel} /> */}
            <Route exact path="/user/:userId/hostels/:hostelId/events" component={AllEvents} />
-           {/* <Route exact path="/user/:userId/hostels/:hostelId/events/new" component={NewEvent} /> */}
+           <Route exact path="/user/:userId/hostels/:hostelId/events/:eventId" component={SingleEvent} />
          </Switch>
          </div>
        </Router>
