@@ -13,14 +13,15 @@ class AllHostels extends Component {
             arrival_date: "",
             departure_date: "",
             events: [],
-            hostelId:""
+            user: this.props.match.params.userId
         }, 
         oneNewHostel: {
             name: "",
             location: "",
             arrival_date: "",
             departure_date: "",
-            events: []
+            events: [],
+            user: this.props.match.params.userId
         },
         user: {},
         userId: "",
@@ -52,6 +53,7 @@ class AllHostels extends Component {
             this.setState({userId: this.props.match.params.userId})
             this.setState({hostels: res.data.hostels});
             this.setState({hostel: res.data.hostel});
+            this.setState({hostelId: res.data.hostelId});
         }
         catch (err) {
             console.log(err)
@@ -59,13 +61,9 @@ class AllHostels extends Component {
         }
     }
 
-      createHostel = () => {
-        const newHost = this.state.oneNewHostel;  
-        axios.post("/api/v1/hostels/", newHost).then(res => {
-          const newHostels = [...this.state.hostels];
-          newHostels.user = this.state.user.userId;
-          newHostels.unshift(res.data);  
-          this.setState({ hostels: newHostels });
+    createHostel = () => {
+        axios.post("/api/v1/hostels/", this.state.oneNewHostel ).then(() => {
+        this.fetchHostels();
         });
       };
 
@@ -91,20 +89,16 @@ class AllHostels extends Component {
         }
     }
 
-    // handleChange = (e) => {
-    //     const clonedHostel = {...this.state.hostel}
-    //     clonedHostel[e.target.name] = e.target.value
-
-    //     this.setState({
-    //         hostel: clonedHostel
-    //     })
-    // }
-
     toggleEditForm = () => {
         this.setState((state, props) => {
             return {isEditFormDisplayed: !state.isEditFormDisplayed}
         })
     }
+
+    handleSignUp = (e) => {
+        e.preventDefault();
+        this.createHostel();
+      };
 
     render() {
         if (this.state.redirectToHome === true) {
@@ -118,7 +112,7 @@ class AllHostels extends Component {
                 </button></div>
                 {
                     this.state.isEditFormDisplayed
-                        ?  <form onSubmit={this.createHostel}>
+                        ?  <form onSubmit={this.handleSignUp}>
                         <div>
                           <label htmlFor="name">Hostel name:</label>
                           <input
