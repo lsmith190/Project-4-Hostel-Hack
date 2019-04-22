@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { Button } from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
 
 class AllEvents extends Component {
     state = {
@@ -23,6 +25,15 @@ class AllEvents extends Component {
         hostelId: "",
         redirectToHome: false
     }
+
+    deleteHostel = () => {
+      const hostelId = this.props.match.params.hostelId;
+      axios.delete(`/api/v1/hostels/${hostelId}/`).then(() => {
+        this.setState({
+            redirectToHome: true,
+        })
+      });
+    };
 
     componentDidMount(){
         this.fetchEvents();
@@ -71,11 +82,12 @@ class AllEvents extends Component {
     }
 
     render() {
-        if (this.state.error){
-            return <div>{this.state.error}</div>
+      if (this.state.redirectToHome === true) {
+        return <Redirect to={`/user/${this.state.userId}/hostels/`} />;
         }
         return (
             <div align="center">
+            <div><Button variant="danger" size="lg" onClick={this.deleteHostel}>+ Delete Hostel</Button></div>
             <div><button onClick={this.toggleEditForm}>
                     {this.state.isEditFormDisplayed === true ? 'Nah, nvm' : 'Add Event'}
                 </button></div>

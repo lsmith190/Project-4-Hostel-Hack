@@ -12,7 +12,8 @@ class AllHostels extends Component {
             location: "",
             arrival_date: "",
             departure_date: "",
-            events: []
+            events: [],
+            hostelId:""
         }, 
         oneNewHostel: {
             name: "",
@@ -23,7 +24,8 @@ class AllHostels extends Component {
         },
         user: {},
         userId: "",
-        redirectToHome: false
+        redirectToHome: false,
+        createdHostel: {}
     }
 
     deleteUser = () => {
@@ -59,11 +61,11 @@ class AllHostels extends Component {
 
       createHostel = () => {
         const newHost = this.state.oneNewHostel;  
-        axios.post("/api/v1/hostels/", newHost ).then(res => {
+        axios.post("/api/v1/hostels/", newHost).then(res => {
           const newHostels = [...this.state.hostels];
           newHostels.user = this.state.user.userId;
           newHostels.unshift(res.data);  
-          this.setState({ redirectToHome: true, createdHostel: res.data });
+          this.setState({ hostels: newHostels });
         });
       };
 
@@ -74,19 +76,6 @@ class AllHostels extends Component {
           this.setState({ oneNewHostel: newHost })
       }
 
-
-    deleteHostel = async () => {
-        try {
-            const hostelId = this.props.match.params.hostelId;
-            const res = await axios.delete(`/api/v1/hostels/${hostelId}`)
-            this.setState({
-                redirectToHome: true
-            })
-        }
-        catch(err) {
-            console.log(err)
-        }
-    }
 
     updateHostel = async (hostel, e) => {
         e.preventDefault()
@@ -175,7 +164,7 @@ class AllHostels extends Component {
                 
                 {this.state.hostels.map(hostel => (
                     <div key={hostel.id}>
-                        <Link to={`/user/${this.state.userId}/hostels/${hostel.id}/events`} >{hostel.name}</Link>
+                        <Link to={`/user/${this.state.userId}/hostels/${hostel.id}/events/`} >{hostel.name}</Link>
                         <p>{hostel.location}</p>
                         <p>Arrival Date: {hostel.arrival_date}</p>
                         <p>Departure Date: {hostel.departure_date}</p>
