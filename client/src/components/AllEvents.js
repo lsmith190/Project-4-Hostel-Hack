@@ -85,13 +85,35 @@ class AllEvents extends Component {
       this.createEvent();
     };
 
-    deleteEvent = (event) => {
-      const eventId = event.id;
-      axios.delete(`/api/v1/events/${eventId}/`).then(() => {
-        const hostelId = this.props.match.params.hostelId
-        this.fetchEvents(hostelId)
-      });
-    };
+    deleteEvent = async () => {
+      try {
+          const eventId = this.props.match.params.eventId
+          const res = await axios.delete(`/api/v1/events/${eventId}`)
+          this.setState({
+              redirectToHome: true
+          })
+      }
+      catch(err) {
+          console.log(err)
+      }
+  }
+
+    // deleteEvent = () => {
+    //   const hostelId = this.props.match.params.hostelId;
+    //   axios.delete(`/api/v1/events/`).then(() => {
+    //     this.setState({
+    //         redirectToHome: true,
+    //     })
+    //   });
+    // };
+
+    // deleteEvent = (event) => {
+    //   const eventId = event.id;
+    //   axios.delete(`/api/v1/events/${eventId}/`).then(() => {
+    //     const hostelId = this.props.match.params.hostelId
+    //     this.fetchEvents(hostelId)
+    //   });
+    // };
 
     // deleteEvent = (event) => {
     //   // const id = this.props.userId
@@ -168,6 +190,7 @@ class AllEvents extends Component {
                         <p>Date: {event.date}</p>
                         <p>Time: {event.time}</p>
                         <p>{event.description}</p>
+                        <div><Button variant="danger" size="lg" onClick={this.deleteEvent}>+ Delete Event</Button></div>
                     </div>
                     
                     

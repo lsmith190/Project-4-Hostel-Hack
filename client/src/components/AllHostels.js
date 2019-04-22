@@ -35,7 +35,6 @@ class AllHostels extends Component {
           this.setState({
               redirectToHome: true,
               isEditFormDisplayed: false
-            
           })
         });
       };
