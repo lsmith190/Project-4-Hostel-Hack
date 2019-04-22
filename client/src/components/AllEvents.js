@@ -52,7 +52,7 @@ class AllEvents extends Component {
         const newEv = this.state.oneNewEvent;  
         axios.post("/api/v1/events/", newEv ).then(res => {
           const newEvents = [...this.state.events];
-          newEvents.user = this.state.user.userId;
+          newEvents.hostel = this.state.hostel.hostelId;
           newEvents.unshift(res.data);  
           this.setState({ redirectToHome: true, createdEvent: res.data });
         });
