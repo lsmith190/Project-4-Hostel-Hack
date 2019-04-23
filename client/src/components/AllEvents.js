@@ -46,7 +46,6 @@ class AllEvents extends Component {
         try {
             const hostelId = this.props.match.params.hostelId;
             const res = await axios.get(`/api/v1/hostels/${hostelId}/`);
-            console.log(res.data)
             this.setState({user: res.data,
                             userId: this.props.match.params.userId,
                             hostels: res.data.hostels,
@@ -145,11 +144,11 @@ class AllEvents extends Component {
                         : null
                 }
                 
-                <h1 style={{padding: '30px'}}>Hostel Events</h1>
+                <h1 style={{padding: '30px', fontFamily: 'Oswald'}}>Hostel Events</h1>
                 {this.state.events.map(event => (
                     <div key={event.id}>
 
-                          <Card style={{ width: '40rem', height: '25rem' }}>
+                          <Card style={{ width: '40rem', height: '25rem', fontFamily: 'Poppins' }}>
                             <Card.Body>
                                 <Card.Title>{event.name}</Card.Title>
                                 <Card.Text>

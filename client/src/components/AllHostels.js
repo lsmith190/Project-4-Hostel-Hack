@@ -130,7 +130,7 @@ class AllHostels extends Component {
                           />
                         </div>
                         <div>
-                          <label htmlFor="arrival_date">Trip Start Date:</label>
+                          <label htmlFor="arrival_date">Trip Start Date(yyyy/mm/dd):</label>
                           <input
                             type="text"
                             name="arrival_date"
@@ -139,7 +139,7 @@ class AllHostels extends Component {
                           />
                         </div>
                         <div>
-                          <label htmlFor="departure_date">Trip End Date:</label>
+                          <label htmlFor="departure_date">Trip End Date(yyyy/mm/dd):</label>
                           <input
                             type="text"
                             name="departure_date"
@@ -152,11 +152,11 @@ class AllHostels extends Component {
                         : null
                 }
 
-                <h1 style={{padding: '30px'}}>{this.state.user.name}'s Upcoming Hostel Trips</h1>
+                <h1 style={{padding: '30px', fontFamily: 'Oswald'}}>{this.state.user.name}'s Upcoming Hostel Trips</h1>
                 
                 {this.state.hostels.map(hostel => (
                     <div key={hostel.id}>
-                        <Card style={{ width: '18rem', height: '15rem' }}>
+                        <Card style={{ width: '18rem', height: '15rem', fontFamily: 'Poppins' }}>
                             <Card.Body>
                                 <Card.Title><Link to={`/user/${this.state.userId}/hostels/${hostel.id}/`} >{hostel.name}</Link></Card.Title>
                                 <Card.Text>

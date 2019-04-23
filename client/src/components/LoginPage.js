@@ -54,15 +54,15 @@ class LogInPage extends Component {
 	    </Jumbotron>
           {this.state.users.map(user => {
             return (
-              <div key={user.id}>
+              <ul key={user.id} style={{fontFamily: 'Poppins'}}>
                 <Link to={`/user/${user.id}/hostels`} key={user.id}>
                   {user.name}
                 </Link>
-              </div>
+              </ul>
             );
           })}
 
-          <Form className="loginform" onSubmit={this.handleSignUp}>
+          <Form className="loginform" onSubmit={this.handleSignUp} style={{padding: '30px'}}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>What is your name?</Form.Label>
               <Form.Control type="text" name="name" placeholder="" onChange={this.handleChange} value={this.state.user.name} />

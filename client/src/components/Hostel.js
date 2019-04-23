@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Link, Redirect } from 'react-router-dom'
-import { Card, Button } from 'react-bootstrap'
+import { Card, Button, Form } from 'react-bootstrap'
 
 class Hostel extends Component {
     state = {
@@ -39,7 +39,7 @@ class Hostel extends Component {
       updateHostel =  async (e, userId) => {
           e.preventDefault()
         try {
-            const res = await axios.put(`/api/v1/user/${this.props.match.params.userId}/hostels/${this.props.match.params.hostelId}/`, this.state.hostel)
+            const res = await axios.put(`/api/v1/hostels/${this.props.match.params.hostelId}/`, this.state.hostel)
             this.setState({
                 hostel: res.data,
             })
@@ -71,10 +71,10 @@ class Hostel extends Component {
             }
         return (
             <div align="center">
-                            <div><Button variant="danger" size="sm" onClick={this.deleteHostel}>+ Delete Trip</Button></div>
-                            <h1 style={{padding: '30px'}}>Trip Details:</h1>
+                            <div align="left"><Button variant="danger" size="sm" onClick={this.deleteHostel}>+ Delete Trip</Button></div>
+                            <h1 style={{padding: '30px', fontFamily: 'Oswald'}}>Trip Details:</h1>
 
-                            <Card style={{ width: '18rem', height: '15rem' }}>
+                            <Card style={{ width: '18rem', height: '15rem', fontFamily: 'Poppins' }}>
                             <Card.Body>
                                 <Card.Title>{this.state.hostel.name}</Card.Title>
                                 <Card.Text>
@@ -92,7 +92,37 @@ class Hostel extends Component {
                             </Card.Body>
                             </Card>
 
-                {
+                            <Form className="editHostelForm" onSubmit={this.updateHostel} style={{padding: '30px'}}>
+                                <Form.Group controlId="formBasicEmail">
+                                <Form.Label>
+                                    Hostel Name:
+                                </Form.Label>
+                                <Form.Control type="text" name="name" placeholder="" onChange={this.handleHostelChange} value={this.state.hostel.name} />
+                                </Form.Group>
+                                <Form.Group controlId="formBasicEmail">
+                                <Form.Label>
+                                    Location:
+                                </Form.Label>
+                                <Form.Control type="text" name="location" placeholder="" onChange={this.handleHostelChange} value={this.state.hostel.location} />
+                                </Form.Group>
+                                <Form.Group controlId="formBasicEmail">
+                                <Form.Label>
+                                    Trip Start Date: 
+                                </Form.Label>
+                                <Form.Control type="text" name="arrival_date" placeholder="" onChange={this.handleHostelChange} value={this.state.hostel.arrival_date} />
+                                </Form.Group>
+                                <Form.Group controlId="formBasicEmail">
+                                <Form.Label>
+                                    Trip End Date: 
+                                </Form.Label>
+                                <Form.Control type="text" name="departure_date" placeholder="" onChange={this.handleHostelChange} value={this.state.hostel.departure_date} />
+                                </Form.Group>
+                                <Button variant="primary" type="submit" onClick={this.createUser}>
+                                Update Trip Details
+                                </Button>
+                            </Form>
+
+                {/* {
                      <form onSubmit={this.updateHostel}>
                         <div>
                           <label htmlFor="name">Hostel name:</label>
@@ -132,7 +162,7 @@ class Hostel extends Component {
                         </div>
                         <button>Update Trip Details</button>
                       </form>
-                }
+                } */}
 
             </div>
         );
