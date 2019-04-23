@@ -8,7 +8,6 @@ class Hostel extends Component {
         hostel: {},
         hostels: [],
         redirectToHome: false,
-        // isUpdateFormDisplayed: false,
     }
     componentDidMount() {
         const hostelId = this.props.match.params.hostelId
@@ -123,48 +122,6 @@ class Hostel extends Component {
                                 Update Trip Details
                                 </Button>
                             </Form>
-
-                {/* {
-                     <form onSubmit={this.updateHostel}>
-                        <div>
-                          <label htmlFor="name">Hostel name:</label>
-                          <input
-                            type="text"
-                            name="name"
-                            onChange={this.handleHostelChange}
-                            value={this.state.hostel.name}
-                          />
-                        </div>
-                        <div>
-                          <label htmlFor="location">Location:</label>
-                          <input
-                            type="text"
-                            name="location"
-                            onChange={this.handleHostelChange}
-                            value={this.state.hostel.location}
-                          />
-                        </div>
-                        <div>
-                          <label htmlFor="arrival_date">Trip Start Date:</label>
-                          <input
-                            type="text"
-                            name="arrival_date"
-                            onChange={this.handleHostelChange}
-                            value={this.state.hostel.arrival_date}
-                          />
-                        </div>
-                        <div>
-                          <label htmlFor="departure_date">Trip End Date:</label>
-                          <input
-                            type="text"
-                            name="departure_date"
-                            onChange={this.handleHostelChange}
-                            value={this.state.hostel.departure_date}
-                          />
-                        </div>
-                        <button>Update Trip Details</button>
-                      </form>
-                } */}
 
             </div>
         );
