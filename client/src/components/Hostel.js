@@ -42,6 +42,7 @@ class Hostel extends Component {
             const res = await axios.put(`/api/v1/hostels/${this.props.match.params.hostelId}/`, this.state.hostel)
             this.setState({
                 hostel: res.data,
+                redirectToHome: true,
             })
         } catch (err) {
             console.log(err)
@@ -72,6 +73,7 @@ class Hostel extends Component {
         return (
             <div align="center">
                             <div align="left"><Button variant="danger" size="sm" onClick={this.deleteHostel}>+ Delete Trip</Button></div>
+                            <div align="left"><Link to={`/user/${this.props.match.params.userId}/hostels/`} >BACK</Link></div>
                             <h1 style={{padding: '30px', fontFamily: 'Oswald'}}>Trip Details:</h1>
 
                             <Card style={{ width: '18rem', height: '15rem', fontFamily: 'Poppins' }}>

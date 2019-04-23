@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import { Button, Card } from 'react-bootstrap'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 class AllEvents extends Component {
     state = {
@@ -143,7 +143,7 @@ class AllEvents extends Component {
                       </form>
                         : null
                 }
-                
+                <div align="left"><Link to={`/user/${this.props.match.params.userId}/hostels/${this.props.match.params.hostelId}`} >BACK</Link></div>
                 <h1 style={{padding: '30px', fontFamily: 'Oswald'}}>Hostel Events</h1>
                 {this.state.events.map(event => (
                     <div key={event.id}>
