@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Card } from 'react-bootstrap'
+import Weather from "./Weather";
+import InputField from "./InputField";
 
 class AllHostels extends Component {
     state = {
@@ -105,7 +107,7 @@ class AllHostels extends Component {
         return (
             <div align="center">
                 <div align="left"><Button variant="danger" size="sm" onClick={this.deleteUser}>+ Delete Account</Button></div>
-                <div align="left"><button onClick={this.toggleNewForm}>
+                <div align="center"><button onClick={this.toggleNewForm}>
                     {this.state.isNewFormDisplayed === true ? 'Nah, nvm' : 'Add Hostel'}
                 </button></div>
                 {
@@ -121,7 +123,7 @@ class AllHostels extends Component {
                           />
                         </div>
                         <div>
-                          <label htmlFor="location">Location:</label>
+                          <label htmlFor="location">Location (City):</label>
                           <input
                             type="text"
                             name="location"
