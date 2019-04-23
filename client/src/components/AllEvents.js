@@ -42,7 +42,7 @@ class AllEvents extends Component {
         this.fetchEvents(hostelId);
     }
 
-    fetchEvents = async (hostelId) => {
+    fetchEvents = async () => {
         try {
             const hostelId = this.props.match.params.hostelId;
             const res = await axios.get(`/api/v1/hostels/${hostelId}/`);
@@ -85,18 +85,24 @@ class AllEvents extends Component {
       this.createEvent();
     };
 
-    deleteEvent = async () => {
-      try {
-          const eventId = this.props.match.params.eventId
-          const res = await axios.delete(`/api/v1/events/${eventId}`)
-          this.setState({
-              redirectToHome: true
-          })
-      }
-      catch(err) {
-          console.log(err)
-      }
-  }
+    deleteEvent = (event, eventId) => {
+      event.preventDefault()
+      axios.delete(`/api/v1/events/${eventId}/`).then(() => {
+        this.fetchEvents();
+      });
+    };
+
+  //   deleteEvent = async (e, eventId) => {
+  //     e.preventDefault()
+  //     try {
+  //         const eventId = this.props.match.params.eventId
+  //         const res = await axios.delete(`/api/v1/events/${eventId}`)
+  //             this.fetchEvents()
+  //     }
+  //     catch(err) {
+  //         console.log(err)
+  //     }
+  // }
 
     // deleteEvent = () => {
     //   const hostelId = this.props.match.params.hostelId;
@@ -190,7 +196,7 @@ class AllEvents extends Component {
                         <p>Date: {event.date}</p>
                         <p>Time: {event.time}</p>
                         <p>{event.description}</p>
-                        <div><Button variant="danger" size="lg" onClick={this.deleteEvent}>+ Delete Event</Button></div>
+                        <div><Button variant="danger" size="lg" onClick={(e) => this.deleteEvent(e, event.id)}>+ Delete Event</Button></div>
                     </div>
                     
                     
