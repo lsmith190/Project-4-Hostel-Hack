@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Redirect, Link } from 'react-router-dom'
-import { Container, Jumbotron } from 'react-bootstrap';
+import { Container, Jumbotron, Form, Button } from 'react-bootstrap';
 
 class LogInPage extends Component {
     state = {
@@ -50,7 +50,6 @@ class LogInPage extends Component {
           <Jumbotron fluid className="login" style={{ height: '30rem' }}>
 					<Container className="loginfont">
 						<h1 style={{ fontSize: '50px', fontWeight: 'bold', color: 'white' }}>HOSTEL HACK</h1>
-						<p style={{ fontSize: '20px', color: 'white' }}>Your hassle-free hostel experience awaits!</p>
 					</Container>
 	    </Jumbotron>
           {this.state.users.map(user => {
@@ -62,19 +61,19 @@ class LogInPage extends Component {
               </div>
             );
           })}
-  
-          <form onSubmit={this.handleSignUp}>
-            <div>
-              <label htmlFor="name">What is your name?</label>
-              <input
-                type="text"
-                name="name"
-                onChange={this.handleChange}
-                value={this.state.user.name}
-              />
-            </div>
-            <button>Join</button>
-          </form>
+
+          <Form className="loginform" onSubmit={this.handleSignUp}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>What is your name?</Form.Label>
+              <Form.Control type="text" name="name" placeholder="" onChange={this.handleChange} value={this.state.user.name} />
+              <Form.Text className="text-muted">
+                Your hassle-free hostel experience awaits!
+              </Form.Text>
+            </Form.Group>
+            <Button variant="primary" type="submit" onClick={this.createUser}>
+              Join
+            </Button>
+          </Form>
           </div>
       );
     }

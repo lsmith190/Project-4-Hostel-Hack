@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Link, Redirect } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
+import { Card, Button } from 'react-bootstrap'
 
 class Hostel extends Component {
     state = {
         hostel: {},
-
         hostels: [],
         redirectToHome: false,
         // isUpdateFormDisplayed: false,
@@ -40,7 +39,7 @@ class Hostel extends Component {
       updateHostel =  async (e, userId) => {
           e.preventDefault()
         try {
-            const res = await axios.put(`/api/v1/user/${userId}/hostels/${this.props.match.params.hostelId}`, this.state.hostel)
+            const res = await axios.put(`/api/v1/user/${this.props.match.params.userId}/hostels/${this.props.match.params.hostelId}/`, this.state.hostel)
             this.setState({
                 hostel: res.data,
             })
@@ -72,12 +71,26 @@ class Hostel extends Component {
             }
         return (
             <div align="center">
-                <div>{this.state.hostel.name}</div>
-                <div>Location: {this.state.hostel.location}</div>
-                <div>Arrival Date: {this.state.hostel.arrival_date}</div>
-                <div>Departure Date: {this.state.hostel.departure_date}</div>
-                <Link to={`/user/${this.props.match.params.userId}/hostels/${this.props.match.params.hostelId}/events`}>View Upcoming Events!</Link>
-                <div><Button variant="danger" size="lg" onClick={this.deleteHostel}>+ Delete Trip</Button></div>
+                            <div><Button variant="danger" size="sm" onClick={this.deleteHostel}>+ Delete Trip</Button></div>
+                            <h1 style={{padding: '30px'}}>Trip Details:</h1>
+
+                            <Card style={{ width: '18rem', height: '15rem' }}>
+                            <Card.Body>
+                                <Card.Title>{this.state.hostel.name}</Card.Title>
+                                <Card.Text>
+                                    Location: {this.state.hostel.location}
+                                </Card.Text>
+                                <Card.Text>
+                                    Arrival Date: {this.state.hostel.arrival_date}
+                                </Card.Text>
+                                <Card.Text>
+                                    Departure Date: {this.state.hostel.departure_date}
+                                </Card.Text>
+                                <Card.Text>
+                                <Link to={`/user/${this.props.match.params.userId}/hostels/${this.props.match.params.hostelId}/events`}>View Upcoming Events!</Link>
+                                </Card.Text>
+                            </Card.Body>
+                            </Card>
 
                 {
                      <form onSubmit={this.updateHostel}>
@@ -117,7 +130,7 @@ class Hostel extends Component {
                             value={this.state.hostel.departure_date}
                           />
                         </div>
-                        <button>Add</button>
+                        <button>Update Trip Details</button>
                       </form>
                 }
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { Button } from 'react-bootstrap'
+import { Button, Card } from 'react-bootstrap'
 import { Redirect } from 'react-router-dom'
 
 class AllEvents extends Component {
@@ -145,14 +145,27 @@ class AllEvents extends Component {
                         : null
                 }
                 
-                <h1>Hostel Events</h1>
+                <h1 style={{padding: '30px'}}>Hostel Events</h1>
                 {this.state.events.map(event => (
                     <div key={event.id}>
-                        <p>{event.name}</p>
-                        <p>Date: {event.date}</p>
-                        <p>Time: {event.time}</p>
-                        <p>{event.description}</p>
-                        <div><Button variant="danger" size="lg" onClick={(e) => this.deleteEvent(e, event.id)}>+ Delete Event</Button></div>
+
+                          <Card style={{ width: '40rem', height: '25rem' }}>
+                            <Card.Body>
+                                <Card.Title>{event.name}</Card.Title>
+                                <Card.Text>
+                                    Date: {event.date}
+                                </Card.Text>
+                                <Card.Text>
+                                    Time: {event.time}
+                                </Card.Text>
+                                <Card.Text>
+                                    {event.description}
+                                </Card.Text>
+                                <Card.Text>
+                                    <Button variant="danger" size="lg" onClick={(e) => this.deleteEvent(e, event.id)}>+ Delete Event</Button>
+                                </Card.Text>
+                            </Card.Body>
+                            </Card>
                     </div>
                     
                     

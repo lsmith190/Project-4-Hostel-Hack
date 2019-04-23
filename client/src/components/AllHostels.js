@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { Button } from 'react-bootstrap'
+import { Button, Card } from 'react-bootstrap'
 
 class AllHostels extends Component {
     state = {
@@ -69,7 +69,6 @@ class AllHostels extends Component {
       handleNewHostelChange = (e) => {
           let newHost = {...this.state.oneNewHostel}
           newHost[e.target.name] = e.target.value
-          console.log(newHost)
           this.setState({ oneNewHostel: newHost })
       }
 
@@ -105,8 +104,8 @@ class AllHostels extends Component {
         }
         return (
             <div align="center">
-                <div><Button variant="danger" size="lg" onClick={this.deleteUser}>+ Delete Account</Button></div>
-                <div><button onClick={this.toggleNewForm}>
+                <div align="left"><Button variant="danger" size="sm" onClick={this.deleteUser}>+ Delete Account</Button></div>
+                <div align="left"><button onClick={this.toggleNewForm}>
                     {this.state.isNewFormDisplayed === true ? 'Nah, nvm' : 'Add Hostel'}
                 </button></div>
                 {
@@ -153,14 +152,24 @@ class AllHostels extends Component {
                         : null
                 }
 
-                <h1>{this.state.user.name}'s Upcoming Trips</h1>
+                <h1 style={{padding: '30px'}}>{this.state.user.name}'s Upcoming Hostel Trips</h1>
                 
                 {this.state.hostels.map(hostel => (
                     <div key={hostel.id}>
-                        <Link to={`/user/${this.state.userId}/hostels/${hostel.id}/`} >{hostel.name}</Link>
-                        <p>{hostel.location}</p>
-                        <p>Arrival Date: {hostel.arrival_date}</p>
-                        <p>Departure Date: {hostel.departure_date}</p>
+                        <Card style={{ width: '18rem', height: '15rem' }}>
+                            <Card.Body>
+                                <Card.Title><Link to={`/user/${this.state.userId}/hostels/${hostel.id}/`} >{hostel.name}</Link></Card.Title>
+                                <Card.Text>
+                                    Location: {hostel.location}
+                                </Card.Text>
+                                <Card.Text>
+                                    Arrival Date: {hostel.arrival_date}
+                                </Card.Text>
+                                <Card.Text>
+                                    Departure Date: {hostel.departure_date}
+                                </Card.Text>
+                            </Card.Body>
+                            </Card>
                     </div>
                 ))}
             </div>
