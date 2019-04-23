@@ -74,9 +74,9 @@ class AllEvents extends Component {
         this.setState({ oneNewEvent: newEv })
     }
 
-    toggleEditForm = () => {
+    toggleNewForm = () => {
         this.setState((state, props) => {
-            return {isEditFormDisplayed: !state.isEditFormDisplayed}
+            return {isNewFormDisplayed: !state.isNewFormDisplayed}
         })
     }
 
@@ -92,61 +92,17 @@ class AllEvents extends Component {
       });
     };
 
-  //   deleteEvent = async (e, eventId) => {
-  //     e.preventDefault()
-  //     try {
-  //         const eventId = this.props.match.params.eventId
-  //         const res = await axios.delete(`/api/v1/events/${eventId}`)
-  //             this.fetchEvents()
-  //     }
-  //     catch(err) {
-  //         console.log(err)
-  //     }
-  // }
-
-    // deleteEvent = () => {
-    //   const hostelId = this.props.match.params.hostelId;
-    //   axios.delete(`/api/v1/events/`).then(() => {
-    //     this.setState({
-    //         redirectToHome: true,
-    //     })
-    //   });
-    // };
-
-    // deleteEvent = (event) => {
-    //   const eventId = event.id;
-    //   axios.delete(`/api/v1/events/${eventId}/`).then(() => {
-    //     const hostelId = this.props.match.params.hostelId
-    //     this.fetchEvents(hostelId)
-    //   });
-    // };
-
-    // deleteEvent = (event) => {
-    //   // const id = this.props.userId
-    //   const eventId = this.props.event.id
-    //   axios.delete(`/api/v1/events/${eventId}/`)
-    //   .then(res => {
-        
-    //       const copiedEvent = [...this.state.event]
-    //       const filteredEvents = copiedEvent.filter(event => event.id !== res.data.id)
-    //       this.setState({ event: filteredEvents})
-    //   }).then(() => {
-    //       this.fetchEvents()
-    //   })
-    // }
-
     render() {
       if (this.state.redirectToHome === true) {
         return <Redirect to={`/user/${this.state.userId}/hostels/`} />;
         }
         return (
             <div align="center">
-            <div><Button variant="danger" size="lg" onClick={this.deleteHostel}>+ Delete Hostel</Button></div>
-            <div><button onClick={this.toggleEditForm}>
-                    {this.state.isEditFormDisplayed === true ? 'Nah, nvm' : 'Add Event'}
+            <div><button onClick={this.toggleNewForm}>
+                    {this.state.isNewFormDisplayed === true ? 'Nah, nvm' : 'Add Event'}
                 </button></div>
                 {
-                    this.state.isEditFormDisplayed
+                    this.state.isNewFormDisplayed
                         ?  <form onSubmit={this.handleSignUp}>
                         <div>
                           <label htmlFor="name">Event name:</label>

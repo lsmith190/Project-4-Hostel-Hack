@@ -5,7 +5,7 @@ import { Navbar, Nav } from 'react-bootstrap';
 import LoginPage from './components/LoginPage.js'
 import AllHostels from './components/AllHostels.js'
 import AllEvents from './components/AllEvents.js'
-import SingleEvent from "./components/SingleEvent"
+import Hostel from './components/Hostel.js'
 
 class App extends Component {
   render() {
@@ -23,8 +23,8 @@ class App extends Component {
          <Switch>
            <Route exact path="/" component={LoginPage} />
            <Route exact path="/user/:userId/hostels" component={AllHostels} />
+           <Route exact path="/user/:userId/hostels/:hostelId/" component={Hostel} />
            <Route exact path="/user/:userId/hostels/:hostelId/events" component={AllEvents} />
-           <Route exact path="/user/:userId/hostels/:hostelId/events/:eventId" component={SingleEvent} />
          </Switch>
          </div>
        </Router>

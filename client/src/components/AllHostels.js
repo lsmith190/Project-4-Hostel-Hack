@@ -34,7 +34,7 @@ class AllHostels extends Component {
         axios.delete(`/api/v1/users/${userId}/`).then(() => {
           this.setState({
               redirectToHome: true,
-              isEditFormDisplayed: false
+              isNewFormDisplayed: false
           })
         });
       };
@@ -80,7 +80,7 @@ class AllHostels extends Component {
             const res = await axios.put(`/api/v1/hostels/${hostel.id}`, this.state.hostel)
             this.setState({
                 hostel: res.data,
-                isEditFormDisplayed: false
+                isNewFormDisplayed: false
             })
         }
         catch(err) {
@@ -88,9 +88,9 @@ class AllHostels extends Component {
         }
     }
 
-    toggleEditForm = () => {
+    toggleNewForm = () => {
         this.setState((state, props) => {
-            return {isEditFormDisplayed: !state.isEditFormDisplayed}
+            return {isNewFormDisplayed: !state.isNewFormDisplayed}
         })
     }
 
@@ -106,11 +106,11 @@ class AllHostels extends Component {
         return (
             <div align="center">
                 <div><Button variant="danger" size="lg" onClick={this.deleteUser}>+ Delete Account</Button></div>
-                <div><button onClick={this.toggleEditForm}>
-                    {this.state.isEditFormDisplayed === true ? 'Nah, nvm' : 'Add Hostel'}
+                <div><button onClick={this.toggleNewForm}>
+                    {this.state.isNewFormDisplayed === true ? 'Nah, nvm' : 'Add Hostel'}
                 </button></div>
                 {
-                    this.state.isEditFormDisplayed
+                    this.state.isNewFormDisplayed
                         ?  <form onSubmit={this.handleSignUp}>
                         <div>
                           <label htmlFor="name">Hostel name:</label>
@@ -157,7 +157,7 @@ class AllHostels extends Component {
                 
                 {this.state.hostels.map(hostel => (
                     <div key={hostel.id}>
-                        <Link to={`/user/${this.state.userId}/hostels/${hostel.id}/events/`} >{hostel.name}</Link>
+                        <Link to={`/user/${this.state.userId}/hostels/${hostel.id}/`} >{hostel.name}</Link>
                         <p>{hostel.location}</p>
                         <p>Arrival Date: {hostel.arrival_date}</p>
                         <p>Departure Date: {hostel.departure_date}</p>
