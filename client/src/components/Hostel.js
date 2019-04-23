@@ -6,9 +6,10 @@ import { Button } from 'react-bootstrap'
 class Hostel extends Component {
     state = {
         hostel: {},
+
         hostels: [],
         redirectToHome: false,
-        isUpdateFormDisplayed: false,
+        // isUpdateFormDisplayed: false,
     }
     componentDidMount() {
         const hostelId = this.props.match.params.hostelId
@@ -37,11 +38,11 @@ class Hostel extends Component {
       };
 
       updateHostel =  async (e, userId) => {
+          e.preventDefault()
         try {
-            const res = await axios.put(`/api/v1/user/${userId}/hostels/`, this.state.hostel)
+            const res = await axios.put(`/api/v1/user/${userId}/hostels/${this.props.match.params.hostelId}`, this.state.hostel)
             this.setState({
                 hostel: res.data,
-                isHostelFormDisplayed: false,
             })
         } catch (err) {
             console.log(err)
@@ -61,7 +62,7 @@ class Hostel extends Component {
           const cloneNewHostel = {...this.state.hostel}
           cloneNewHostel[e.target.name] = e.target.value
           this.setState({
-              cloneNewHostel: cloneNewHostel
+              hostel: cloneNewHostel
           })
       }
 
@@ -71,17 +72,15 @@ class Hostel extends Component {
             }
         return (
             <div align="center">
-                <div>{this.state.hostels.name}</div>
-                <div>Location: {this.state.hostels.location}</div>
-                <div>Arrival Date: {this.state.hostels.arrival_date}</div>
-                <div>Departure Date: {this.state.hostels.departure_date}</div>
+                <div>{this.state.hostel.name}</div>
+                <div>Location: {this.state.hostel.location}</div>
+                <div>Arrival Date: {this.state.hostel.arrival_date}</div>
+                <div>Departure Date: {this.state.hostel.departure_date}</div>
                 <Link to={`/user/${this.props.match.params.userId}/hostels/${this.props.match.params.hostelId}/events`}>View Upcoming Events!</Link>
                 <div><Button variant="danger" size="lg" onClick={this.deleteHostel}>+ Delete Trip</Button></div>
-                <div><Button variant="danger" size="lg" onClick={this.toggleHostelForm}>+ Edit Trip</Button></div>
 
                 {
-                    this.state.isUpdateFormDisplayed
-                        ?  <form onSubmit={this.updateHostel}>
+                     <form onSubmit={this.updateHostel}>
                         <div>
                           <label htmlFor="name">Hostel name:</label>
                           <input
@@ -97,7 +96,7 @@ class Hostel extends Component {
                             type="text"
                             name="location"
                             onChange={this.handleHostelChange}
-                            value={this.state.hostel.name}
+                            value={this.state.hostel.location}
                           />
                         </div>
                         <div>
@@ -106,7 +105,7 @@ class Hostel extends Component {
                             type="text"
                             name="arrival_date"
                             onChange={this.handleHostelChange}
-                            value={this.state.hostel.name}
+                            value={this.state.hostel.arrival_date}
                           />
                         </div>
                         <div>
@@ -115,12 +114,11 @@ class Hostel extends Component {
                             type="text"
                             name="departure_date"
                             onChange={this.handleHostelChange}
-                            value={this.state.hostel.name}
+                            value={this.state.hostel.departure_date}
                           />
                         </div>
                         <button>Add</button>
                       </form>
-                        : null
                 }
 
             </div>
